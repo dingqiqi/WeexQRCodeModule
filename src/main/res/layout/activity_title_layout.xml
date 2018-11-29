@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_title_bar"
+    android:layout_width="match_parent"
+    android:layout_height="48dp"
+    android:background="@color/blueTheme">
+
+    <TextView
+        android:id="@+id/tv_back"
+        android:layout_width="30dp"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:drawableLeft="@drawable/icon_back"
+        android:drawablePadding="8dp"
+        android:drawableStart="@drawable/icon_back"
+        android:gravity="center"
+        android:onClick="onClick"
+        android:textColor="#ffffff"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="请扫描二维码"
+        android:textColor="#ffffff"
+        android:textSize="17sp" />
+
+</RelativeLayout>
