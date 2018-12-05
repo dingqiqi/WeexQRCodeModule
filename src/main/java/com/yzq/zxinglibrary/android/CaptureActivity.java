@@ -360,16 +360,15 @@ public class CaptureActivity extends Activity implements SurfaceHolder.Callback,
         if (id == R.id.flashLightLayout) {
             /*切换闪光灯*/
             cameraManager.switchFlashLight(handler);
+        } else if (id == R.id.albumLayout) {
+            /*打开相册*/
+            Intent intent = new Intent();
+            intent.setAction(Intent.ACTION_PICK);
+            intent.setType("image/*");
+            startActivityForResult(intent, Constant.REQUEST_IMAGE);
+        } else if (id == R.id.backIv) {
+            finish();
         }
-// else if (id == R.id.albumLayout) {
-//            /*打开相册*/
-//            Intent intent = new Intent();
-//            intent.setAction(Intent.ACTION_PICK);
-//            intent.setType("image/*");
-//            startActivityForResult(intent, Constant.REQUEST_IMAGE);
-//        } else if (id == R.id.backIv) {
-//            finish();
-//        }
 
         if (id == R.id.tv_back) {
             setResult(RESULT_CANCELED);

@@ -2,6 +2,7 @@ package com.lakala.appcomponent.qrcodemodule;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.text.TextUtils;
 
@@ -11,6 +12,10 @@ import com.taobao.weex.common.WXModule;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class QRCodeModule extends WXModule implements IQRCode {
 
@@ -96,4 +101,62 @@ public class QRCodeModule extends WXModule implements IQRCode {
 
         return true;
     }
+
+    @JSMethod
+    @Override
+    public boolean createQRCode(String params, JSCallback jsCallback) {
+        if (jsCallback == null) {
+            return false;
+        }
+
+        Context context = mWXSDKInstance.getContext();
+        if (context == null) {
+            return false;
+        }
+
+        JSONObject jsonObject;
+        try {
+            jsonObject = new JSONObject(params);
+            //图片内容
+            String message = jsonObject.optString("message");
+
+            if (TextUtils.isEmpty(message)) {
+                return false;
+            }
+
+            //图片大小
+            int size = jsonObject.optInt("size", 50);
+
+            //创建图片二维码
+            Bitmap bitmap = ZXingUtils.createQRImage(message, size, size);
+
+            if (bitmap != null) {
+                String path = FileUtil.saveBitmapToFile(context, bitmap, getPhotoFileName(context));
+
+                if (!TextUtils.isEmpty(path)) {
+                    jsCallback.invoke("resLocal://" + path);
+                    return true;
+                }
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    /**
+     * 设置拍照获得的照片名字
+     *
+     * @return 文件名
+     */
+    private String getPhotoFileName(Context context) {
+        Date date = new Date(System.currentTimeMillis());
+        SimpleDateFormat dateFormat = new SimpleDateFormat(
+                "yyyyMMdd_HHmmss", Locale.getDefault());
+
+        return "IMG_" + dateFormat.format(date) + ".jpg";
+    }
+
 }
